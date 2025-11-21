@@ -1,4 +1,3 @@
-from decorator import append
 from semantic_digital_twin.world import World
 from semantic_digital_twin.world_description.geometry import Box, Scale, Sphere, Cylinder, FileMesh, Color
 from semantic_digital_twin.adapters.viz_marker import VizMarkerPublisher
@@ -26,7 +25,7 @@ def load_environment():
         world.add_body(root)
 
     build_environment_walls(world)
-    build_environment_furnicher(world)
+    build_environment_furniture(world)
 
     return world
 
@@ -152,7 +151,7 @@ def build_environment_walls(world: World):
         return world
 
 
-def build_environment_furnicher(world: World):
+def build_environment_furniture(world: World):
     all_elements_bodies = []
     all_elements_connections = []
     root = world.root
@@ -249,7 +248,7 @@ def build_environment_furnicher(world: World):
     all_elements_connections.append(root_C_diningTable)
 
     with world.modify_world():
-        for body in all_elements_bodies[1:]:
+        for body in all_elements_bodies:
             world.add_body(body)
 
         for conn in all_elements_connections:
