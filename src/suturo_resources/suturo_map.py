@@ -279,18 +279,17 @@ def build_environment_furniture(world: World):
         Point3(-0.29, 4.8665, 0.0),
     ]
 
-    # TODo : magerment bedroom and office floor polygons
     bed_room_floor = [
         Point3(-0.29, 4.8665, 0.0),
-        Point3(4.949, 4.8665, 0.0),
-        Point3(4.949, 6.32, 0.0),
+        Point3(2.20975, 4.8665, 0.0),
+        Point3(2.20975, 6.32, 0.0),
         Point3(-0.29, 6.32, 0.0),
     ]
 
     office_floor = [
-        Point3(2.20975, 5.00, 0.0),
-        Point3(4.949, 5.00, 0.0),
-        Point3(4.949, 6.32, 0.0),
+        Point3(2.20975, 4.8665, 0.0),
+        Point3(4.949, 4.8665, 0.0),
+        Point3(4.949, 6.295, 0.0),
         Point3(2.20975, 6.32, 0.0),
     ]
 
