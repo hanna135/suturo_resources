@@ -1,28 +1,16 @@
-import numpy as np
-from PIL.ImageOps import scale
 from semantic_digital_twin.world import World
-from semantic_digital_twin.world_description.degree_of_freedom import DegreeOfFreedom
-from semantic_digital_twin.world_description.geometry import Box, Scale, Sphere, Cylinder, FileMesh, Color
+from semantic_digital_twin.world_description.geometry import Cylinder
 from semantic_digital_twin.adapters.viz_marker import VizMarkerPublisher
 import threading
 import rclpy
 from semantic_digital_twin.datastructures.prefixed_name import PrefixedName
 from semantic_digital_twin.spatial_types.spatial_types import TransformationMatrix, Point3
 from semantic_digital_twin.world_description.world_entity import Body
-from semantic_digital_twin.world_description.connections import Connection6DoF, FixedConnection, RevoluteConnection
+from semantic_digital_twin.world_description.connections import FixedConnection
 from semantic_digital_twin.world_description.geometry import Box, Scale, Color
 from semantic_digital_twin.world_description.shape_collection import ShapeCollection
-from semantic_digital_twin.spatial_types.spatial_types import Vector3
 
-from semantic_digital_twin.semantic_annotations.factories import (
-    DrawerFactory,
-    ContainerFactory,
-    HandleFactory,
-    Direction,
-    SemanticPositionDescription,
-    HorizontalSemanticDirection,
-    VerticalSemanticDirection, DoorFactory, DresserFactory, RoomFactory,
-)
+from semantic_digital_twin.semantic_annotations.factories import (RoomFactory)
 
 
 white = Color(1, 1, 1)
@@ -292,7 +280,7 @@ def build_environment_furniture(world: World):
         Point3(2.71, 0, 0),
     ]
 
-    # create factory and world
+
     kitchen_world = RoomFactory(name=PrefixedName("kitchen_room"), floor_polytope=kitchen_floor).create()
 
     root_C_kitchen = FixedConnection(parent=root, child=kitchen_world.root,
@@ -346,16 +334,6 @@ class Publisher:
 
 
 def published(world: World):
-    # container_world = ContainerFactory(name=PrefixedName("drawer_container"),
-    #                                    scale=Scale(x=0.43, y=0.8, z=2.02)).create()
-    #
-    # root_C_cabinet = FixedConnection(parent=world.root, child=container_world.root,
-    #                                  parent_T_connection_expression=TransformationMatrix.from_xyz_rpy(x=4.65, y=4.72,
-    #                                                                                                   z=1.01,
-    #                                                                                                   yaw=np.pi))
-    # with world.modify_world():
-    #     world.merge_world(container_world, root_C_cabinet)
-
     rclpy.init()
     node = rclpy.create_node("semantic_digital_twin")
     thread = threading.Thread(target=rclpy.spin, args=(node,), daemon=True)
