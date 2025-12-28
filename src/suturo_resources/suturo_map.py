@@ -159,6 +159,14 @@ def build_environment_furniture(world: World):
     all_elements_connections = []
     root = world.get_body_by_name("root")
 
+    trash_can = Cylinder(width=0.30, height=0.40, color=black)
+    shape_geometry = ShapeCollection([trash_can])
+    trash_can_body = Body(name=PrefixedName("trash_can_body"), collision=shape_geometry, visual=shape_geometry)
+
+    root_C_trash_can = FixedConnection(parent=root, child=trash_can_body,
+                                       parent_T_connection_expression=TransformationMatrix.from_xyz_rpy(x=1, y=1, z=0.20))
+    all_elements_connections.append(root_C_trash_can)
+
     refrigerator = Box(scale=Scale(0.60, 0.658, 1.49), color=white)
     shape_geometry = ShapeCollection([refrigerator])
     refrigerator_body = Body(name=PrefixedName("refrigerator_body"), collision=shape_geometry, visual=shape_geometry)
