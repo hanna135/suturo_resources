@@ -1,7 +1,17 @@
+from krrood.entity_query_language.entity import variable, entity, contains
+from krrood.entity_query_language.entity_result_processors import an
+from krrood.entity_query_language.predicate import symbolic_function
+from random_events.interval import Interval
+from semantic_digital_twin.datastructures.variables import SpatialVariables
+from semantic_digital_twin.reasoning.predicates import Below
+from semantic_digital_twin.semantic_annotations.semantic_annotations import KitchenRoom
+from semantic_digital_twin.spatial_types import HomogeneousTransformationMatrix
 from semantic_digital_twin.world import World
 from semantic_digital_twin.datastructures.prefixed_name import PrefixedName
+from semantic_digital_twin.world_description.world_entity import Body
 
-from suturo_resources.queries import query_kitchen_area, query_living_room_area, query_bed_room_area, query_office_area
+from conftest import test_load_world
+from suturo_resources.queries import query_region_area, get_next_object
 from suturo_resources.suturo_map import load_environment, Publisher
 
 
@@ -21,15 +31,88 @@ def test_areas():
     Checks that room areas gives x, y, z coordinate each.
     """
     world = load_environment()
+    query = query_region_area
 
-    # List of areas and their query functions
-    area_queries = [
-        ("kitchen", query_kitchen_area),
-        ("living_room", query_living_room_area),
-        ("bedroom", query_bed_room_area),
-        ("office", query_office_area),
+    areas =[
+        "kitchen", "living_room", "bed_room", "office"
     ]
+    for area in areas:
+        print(query(world, area))
+        assert len([query(world, area).global_pose.x.to_list()[0], query(world, area).global_pose.y.to_list()[0],
+                    query(world, area).global_pose.z.to_list()[0]]) == 3
 
-    for place, query in area_queries:
-        print(query(world))
-        assert len([query(world).global_pose.x.to_list()[0], query(world).global_pose.y.to_list()[0], query(world).global_pose.z.to_list()[0]]) == 3
+def test_get_next_object():
+    world = test_load_world()
+    assert world.get_body_by_name("banana_body") is get_next_object(world.get_body_by_name("table_body"),
+                                                                    pov=HomogeneousTransformationMatrix.from_xyz_rpy(x=2,y=2))[0][0]
+
+#
+# def test_eql_is_supported_by():
+#
+#     @symbolic_function
+#     def is_supported_by(
+#             supported_body: Body, supporting_body: Body, max_intersection_height: float = 0.1
+#     ) -> bool:
+#         """
+#         Checks if one object is supporting another object.
+#
+#         :param supported_body: Object that is supported
+#         :param supporting_body: Object that potentially supports the first object
+#         :param max_intersection_height: Maximum height of the intersection between the two objects.
+#         If the intersection is higher than this value, the check returns False due to unhandled clipping.
+#         :return: True if the second object is supported by the first object, False otherwise
+#         """
+#         if supported_body == supporting_body:
+#             return False
+#
+#         if supported_body.combined_mesh is None or supporting_body.combined_mesh is None:
+#             return False
+#
+#         if Below(supported_body, supporting_body, supported_body.global_pose)():
+#             return False
+#         bounding_box_supported_body = (
+#             supported_body.collision.as_bounding_box_collection_at_origin(
+#                 HomogeneousTransformationMatrix(reference_frame=supported_body)
+#             ).event
+#         )
+#         bounding_box_supporting_body = (
+#             supporting_body.collision.as_bounding_box_collection_at_origin(
+#                 HomogeneousTransformationMatrix(reference_frame=supported_body)
+#             ).event
+#         )
+#
+#         intersection = (
+#                 bounding_box_supported_body & bounding_box_supporting_body
+#         ).bounding_box()
+#
+#         if intersection.is_empty():
+#             return False
+#
+#         z_intersection: Interval = intersection[SpatialVariables.z.value]
+#         size = sum([si.upper - si.lower for si in z_intersection.simple_sets])
+#         return size < max_intersection_height
+#
+#     @symbolic_function
+#     def get_next_object(supporting_surface, pov):
+#         obj_distance = {}
+#         for obj in bodies_above_body(supporting_surface):
+#             dx = abs(obj.global_pose.x - pov[0])
+#             dy = abs(obj.global_pose.y - pov[1])
+#             dist_sq = dx + dy
+#             obj_distance[obj] = dist_sq
+#         sorted_objects = sorted(obj_distance.items(), key=lambda item: item[1])
+#         return sorted_objects
+#
+#     world = load_environment()
+#     table = world.get_body_by_name("table_body")
+#     milk = world.get_body_by_name("milk_body")
+#
+#     body = variable(Body, domain=world.bodies)
+#     #body2 = variable(Body, domain=world.bodies)
+#
+#     query_kwargs = an(entity(body).where(is_supported_by(supported_body=body, supporting_body=table)).)
+#     results = list(query_kwargs.evaluate())
+#
+#
+#
+#     print(results)

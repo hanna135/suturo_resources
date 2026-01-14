@@ -1,3 +1,4 @@
+from semantic_digital_twin.semantic_annotations.semantic_annotations import KitchenRoom
 from semantic_digital_twin.world import World
 from semantic_digital_twin.world_description.geometry import Cylinder
 from semantic_digital_twin.adapters.viz_marker import VizMarkerPublisher
