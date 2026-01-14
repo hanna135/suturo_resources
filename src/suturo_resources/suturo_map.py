@@ -249,13 +249,13 @@ def build_environment_furniture(world: World):
     root_C_diningTable = FixedConnection(parent=root,child=diningTable_body,
                                          parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=2.59975, y=5.705, z=0.365))
     all_elements_connections.append(root_C_diningTable)
-
+#%% ToBeDeleted ####################################
     milk = Box(scale=Scale(0.10, 0.10, 0.20), color=red)
     shape_geometry = ShapeCollection([milk])
     milk_body = Body(name=PrefixedName("milk_body"), collision=shape_geometry, visual=shape_geometry)
 
-    root_C_milk = FixedConnection(parent=table_body, child=milk_body,
-                                  parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=0.2, y=0, z=0.6))
+    root_C_milk = FixedConnection(parent=root, child=milk_body,
+                                  parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=3.545, y=0.626, z=0.9225))
     all_elements_connections.append(root_C_milk)
 
     apple = Sphere(radius=0.10, color=red)
@@ -263,9 +263,24 @@ def build_environment_furniture(world: World):
     apple_body = Body(name=PrefixedName("apple_body"), collision=shape_geometry, visual=shape_geometry)
 
     root_C_apple = FixedConnection(parent=root, child=apple_body,
-                                   parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=3.60, y=0.4, z=1))
+                                   parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=3.545, y=0.426, z=0.9225))
     all_elements_connections.append(root_C_apple)
 
+    banana = Box(scale=Scale(0.20, 0.05, 0.05), color=red)
+    shape_geometry = ShapeCollection([banana])
+    banana_body = Body(name=PrefixedName("banana_body"), collision=shape_geometry, visual=shape_geometry)
+    root_C_banana = FixedConnection(parent=root, child=banana_body,
+                                   parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=3.245, y=0.426, z=0.8225))
+    all_elements_connections.append(root_C_banana)
+
+    cup = Cylinder(width=0.07, height=0.10, color=red)
+    shape_geometry = ShapeCollection([cup])
+    cup_body = Body(name=PrefixedName("cup_body"), collision=shape_geometry, visual=shape_geometry)
+    root_C_cup = FixedConnection(parent=root, child=cup_body,
+                                   parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=1.859,y=-2.181, z=0.5725))
+    all_elements_connections.append(root_C_cup)
+
+#-----------------------------------------------------------------------#
     kitchen_floor = [
         Point3(0,0,0),
         Point3(0,3.334,0),
