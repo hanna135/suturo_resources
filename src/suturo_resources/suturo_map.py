@@ -1,4 +1,3 @@
-from poetry.publishing import Publisher
 from semantic_digital_twin.world import World
 from semantic_digital_twin.world_description.geometry import Cylinder
 from semantic_digital_twin.adapters.viz_marker import VizMarkerPublisher
@@ -8,7 +7,7 @@ from semantic_digital_twin.datastructures.prefixed_name import PrefixedName
 from semantic_digital_twin.spatial_types.spatial_types import HomogeneousTransformationMatrix, Point3
 from semantic_digital_twin.world_description.world_entity import Body
 from semantic_digital_twin.world_description.connections import FixedConnection
-from semantic_digital_twin.world_description.geometry import Box, Scale, Color, Sphere
+from semantic_digital_twin.world_description.geometry import Box, Scale, Color
 from semantic_digital_twin.world_description.shape_collection import ShapeCollection
 
 from semantic_digital_twin.semantic_annotations.factories import (RoomFactory)
@@ -30,7 +29,7 @@ def load_environment():
     root = Body(name=PrefixedName("root"))
 
     root_slam_C_root = FixedConnection(parent=root_slam, child=root,
-                                      parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=0.55,y=0.18,yaw=0.16707963267))
+                                      parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=0.33,y=0.28,yaw=0.10707963267))
     with world.modify_world():
         world.add_connection(root_slam_C_root)
 
@@ -222,7 +221,7 @@ def build_environment_furniture(world: World):
     cabinet_body = Body(name=PrefixedName("cabinet_body"), collision=shape_geometry, visual=shape_geometry)
 
     root_C_cabinet = FixedConnection(parent=root, child=cabinet_body,
-                                     parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=4.65, y=4.72, z=1.01))
+                                     parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=4.8, y=4.72, z=1.01))
     all_elements_connections.append(root_C_cabinet)
 
 
@@ -239,7 +238,7 @@ def build_environment_furniture(world: World):
     cookingTable_body = Body(name=PrefixedName("cookingTable_body"), collision=shape_geometry, visual=shape_geometry)
 
     root_C_cookingTable = FixedConnection(parent=root,child=cookingTable_body,
-                                  parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=1.325, y=5.675, z=0.355))
+                                  parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=1.325, y=5.99, z=0.355))
     all_elements_connections.append(root_C_cookingTable)
 
 
