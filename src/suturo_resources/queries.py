@@ -1,20 +1,13 @@
-from typing import List
-
-import numpy as np
-#from semantic_digital_twin.world_description import *
 from krrood.entity_query_language.entity import variable, entity, contains
 from krrood.entity_query_language.entity_result_processors import an
 from krrood.entity_query_language.predicate import symbolic_function
 from random_events.interval import Interval
-from semantic_digital_twin import world
-from semantic_digital_twin.collision_checking.trimesh_collision_detector import TrimeshCollisionDetector
 from semantic_digital_twin.datastructures.variables import SpatialVariables
-from semantic_digital_twin.reasoning.predicates import Above, is_supported_by, Below
-from semantic_digital_twin.world import World
-from semantic_digital_twin.world_description.world_entity import Region, Body, SemanticAnnotation
+from semantic_digital_twin.reasoning.predicates import Below
+
+from semantic_digital_twin.world_description.world_entity import Region, Body
 from semantic_digital_twin.spatial_types import HomogeneousTransformationMatrix
-#from semantic_digital_twin.semantic_annotations.semantic_annotations import root_C_milk
-from xacro import Table
+
 
 from suturo_resources.suturo_map import load_environment
 
@@ -29,8 +22,6 @@ def query_region_area(world, region: str):
     kitchen_room_area = list(query.evaluate())[0]
     return kitchen_room_area
 
-
-
 def query_trash(world):
     """
     Queries the location of the trash can in the environment.
@@ -41,40 +32,20 @@ def query_trash(world):
     trash_can = list(query.evaluate())[0]
     return trash_can
 
-
-
-# def bodies_above_body(main_body: Body) -> List[Body]:
-#     result= []
-#     bodies= []
-#     for connection in main_body._world.connections:
-#         if str(connection.parent.name) == "root":
-#             bodies.append(connection.child)
-#     for body in bodies:
-#         if body.combined_mesh == None:
-#             continue
-#         if is_supported_by(body, main_body, max_intersection_height=0.1):
-#             result.append(body)
-#     return result
-#
-# def get_next_object(supporting_surface, pov):
-#     obj_distance = {}
-#     for obj in bodies_above_body(supporting_surface):
-#         dx = abs(obj.global_pose.x - pov[0])
-#         dy = abs(obj.global_pose.y - pov[1])
-#         dist_sq = dx + dy
-#         obj_distance[obj] = dist_sq
-#     sorted_objects = sorted(obj_distance.items(), key=lambda item: item[1])
-#     return sorted_objects
-# #print(get_next_object(load_environment().get_body_by_name("table_body"), HomogeneousTransformationMatrix.from_xyz_rpy(x=2,y=2)))
-
 def assign_distance_to_object(obj, pov):
+    """
+    Assigns a distance value to an object based on its position relative to a point of view (pov).
+    :param obj: the object to calculate the distance for
+    :param pov: ower point of view (robot) as [x, y]
+    :return: the distance value as a float
+    """
     dx = abs(obj.global_pose.x - pov[0])
     dy = abs(obj.global_pose.y - pov[1])
     dist_sq = dx + dy
 
     return float(dist_sq)
 
-def test_eql_is_supported_by(supporting_surface):
+def test_eql_is_supported_by():
 
     @symbolic_function
     def is_supported_by(
@@ -133,3 +104,5 @@ def test_eql_is_supported_by(supporting_surface):
     ))
 
     print([b for b in list(results2_query.evaluate())])
+
+#print(test_eql_is_supported_by())

@@ -1,4 +1,4 @@
-from semantic_digital_twin.semantic_annotations.semantic_annotations import KitchenRoom
+from poetry.publishing import Publisher
 from semantic_digital_twin.world import World
 from semantic_digital_twin.world_description.geometry import Cylinder
 from semantic_digital_twin.adapters.viz_marker import VizMarkerPublisher
@@ -30,7 +30,7 @@ def load_environment():
     root = Body(name=PrefixedName("root"))
 
     root_slam_C_root = FixedConnection(parent=root_slam, child=root,
-                                      parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=0.55,y=0.18,yaw=0.15707963267))
+                                      parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(x=0.55,y=0.18,yaw=0.16707963267))
     with world.modify_world():
         world.add_connection(root_slam_C_root)
 
