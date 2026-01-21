@@ -20,12 +20,12 @@ def test_query_semantic_annotations_on_surfaces():
     Tests that giving Table annotations gives a list of the correct annotation on top.
     """
     world = load_environment()
-    table1 = world.get_semantic_annotation_by_name("lowerTable_a")
-    table2 = world.get_semantic_annotation_by_name("diningTable_a")
-    apple = world.get_semantic_annotation_by_name("apple_a")
-    carrot = world.get_semantic_annotation_by_name("carrot_a")
-    orange = world.get_semantic_annotation_by_name("orange_a")
-    lettuce = world.get_semantic_annotation_by_name("lettuce_a")
+    table1 = world.get_semantic_annotation_by_name("lowerTable_annotation")
+    table2 = world.get_semantic_annotation_by_name("diningTable_annotation")
+    apple = world.get_semantic_annotation_by_name("apple_annotation")
+    carrot = world.get_semantic_annotation_by_name("carrot_annotation")
+    orange = world.get_semantic_annotation_by_name("orange_annotation")
+    lettuce = world.get_semantic_annotation_by_name("lettuce_annotation")
 
     assert query_semantic_annotations_on_surfaces([table1, table2]) == [carrot, lettuce, apple, orange]
 
@@ -35,13 +35,13 @@ def test_query_get_next_object():
     :return: an ordered by distance list of Semantic Annotation
     """
     world = load_environment()
-    table1 = world.get_semantic_annotation_by_name("lowerTable_a")
-    table2 = world.get_semantic_annotation_by_name("diningTable_a")
+    table1 = world.get_semantic_annotation_by_name("lowerTable_annotation")
+    table2 = world.get_semantic_annotation_by_name("diningTable_annotation")
 
-    assert query_get_next_object(table1) == [{world.get_semantic_annotation_by_name("lettuce_a")},
-                                             {world.get_semantic_annotation_by_name("carrot_a")}]
-    assert query_get_next_object(table2) == [{world.get_semantic_annotation_by_name("orange_a")},
-                                             {world.get_semantic_annotation_by_name("apple_a")}]
+    assert query_get_next_object(table1) == [{world.get_semantic_annotation_by_name("lettuce_annotation")},
+                                             {world.get_semantic_annotation_by_name("carrot_annotation")}]
+    assert query_get_next_object(table2) == [{world.get_semantic_annotation_by_name("orange_annotation")},
+                                             {world.get_semantic_annotation_by_name("apple_annotation")}]
 
 def test_query_most_similar_obj():
     """
@@ -57,17 +57,17 @@ def test_query_most_similar_obj():
     non-matching cases, along with scenarios where the input list is empty.
     """
     world = load_environment()
-    table1 = world.get_semantic_annotation_by_name("lowerTable_a")
-    table2 = world.get_semantic_annotation_by_name("diningTable_a")
+    table1 = world.get_semantic_annotation_by_name("lowerTable_annotation")
+    table2 = world.get_semantic_annotation_by_name("diningTable_annotation")
     list_of_products_1_2 = query_semantic_annotations_on_surfaces([table1, table2])
     list_of_products_1 = query_semantic_annotations_on_surfaces([table1])
     list_of_products_2 = query_semantic_annotations_on_surfaces([table2])
 
-    banana = world.get_semantic_annotation_by_name("banana_a")
-    apple = world.get_semantic_annotation_by_name("apple_a")
-    carrot = world.get_semantic_annotation_by_name("carrot_a")
-    orange = world.get_semantic_annotation_by_name("orange_a")
-    lettuce = world.get_semantic_annotation_by_name("lettuce_a")
+    banana = world.get_semantic_annotation_by_name("banana_annotation")
+    apple = world.get_semantic_annotation_by_name("apple_annotation")
+    carrot = world.get_semantic_annotation_by_name("carrot_annotation")
+    orange = world.get_semantic_annotation_by_name("orange_annotation")
+    lettuce = world.get_semantic_annotation_by_name("lettuce_annotation")
 
     assert query_most_similar_obj(orange, list_of_products_1_2) == orange
     assert query_most_similar_obj(banana, list_of_products_1_2) == apple
@@ -75,4 +75,4 @@ def test_query_most_similar_obj():
     assert query_most_similar_obj(carrot, []) == carrot
     assert query_most_similar_obj(apple, list_of_products_1) == apple
     assert query_most_similar_obj(carrot, list_of_products_2) == carrot
-    #assert query_most_similar_obj(table1, list_of_products_1_2) == table1      # even when line 64 and 65 are working (if the diffrence between the sem and the annotations graiter than 1 then it returns sem) here it doesent work (i get carrot and idk why)
+    #assert query_most_similar_obj(table1, list_of_products_1_2) == table1      # even when line 64 and 65 are working (if the diffrence between the hand_annotation and the annotations graiter than 1 then it returns hand_annotation) here it doesen't work (i get carrot and idk why)
