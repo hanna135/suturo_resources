@@ -71,16 +71,20 @@ def query_most_similar_obj(hand_annotation: SemanticAnnotation,objects: list[Sem
 
     best_distance = math.inf
     most_similar = None
-
+    counter = 0
     for object in objects:
+
         for cls in type(object).__mro__:
             dist = inheritance_path_length(type(hand_annotation), cls)
             if dist is None:
+                counter = counter + 1
                 continue
 
-            if dist < best_distance:
-                best_distance = dist
+            if counter < best_distance:
+                best_distance = counter
                 most_similar = object
+
+        counter = 0
     # Apply threshold
     if best_distance > 1 or most_similar is None:
         return hand_annotation

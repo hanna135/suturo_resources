@@ -60,8 +60,8 @@ def test_query_most_similar_obj():
     table1 = world.get_semantic_annotation_by_name("lowerTable_annotation")
     table2 = world.get_semantic_annotation_by_name("diningTable_annotation")
     list_of_products_1_2 = query_semantic_annotations_on_surfaces([table1, table2])
-    list_of_products_1 = query_semantic_annotations_on_surfaces([table1])
-    list_of_products_2 = query_semantic_annotations_on_surfaces([table2])
+    list_of_products_1 = query_semantic_annotations_on_surfaces([table1]) # has carrot and lettuce
+    list_of_products_2 = query_semantic_annotations_on_surfaces([table2]) # has apple and orange
 
     banana = world.get_semantic_annotation_by_name("banana_annotation")
     apple = world.get_semantic_annotation_by_name("apple_annotation")
@@ -75,4 +75,4 @@ def test_query_most_similar_obj():
     assert query_most_similar_obj(carrot, []) == carrot
     assert query_most_similar_obj(apple, list_of_products_1) == apple
     assert query_most_similar_obj(carrot, list_of_products_2) == carrot
-    #assert query_most_similar_obj(table1, list_of_products_1_2) == table1      # even when line 64 and 65 are working (if the diffrence between the hand_annotation and the annotations graiter than 1 then it returns hand_annotation) here it doesen't work (i get carrot and idk why)
+    assert query_most_similar_obj(table1, list_of_products_1_2) == table1
