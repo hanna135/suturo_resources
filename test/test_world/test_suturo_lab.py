@@ -5,7 +5,7 @@ from conftest import test_load_world
 from suturo_resources.queries import (
     query_most_similar_obj,
     query_semantic_annotations_on_surfaces,
-    query_get_next_object_euclidean,
+    query_get_next_object_euclidean_x_y,
 )
 from suturo_resources.suturo_map import load_environment, Publisher
 
@@ -14,11 +14,9 @@ def test_load_environment_returns_world():
     """
     Tests that loading the environment returns a World object with the correct root name.
     """
-    world = test_load_world()  # load_environment()
-    publisher = Publisher("semantic_digital_twin")
-    publisher.publish(world)
-    # assert isinstance(world, World)
-    # assert world.root.name == PrefixedName("root_slam")
+    world = load_environment()
+    assert isinstance(world, World)
+    assert world.root.name == PrefixedName("root_slam")
 
 
 def test_query_semantic_annotations_on_surfaces():
@@ -40,12 +38,17 @@ def test_query_semantic_annotations_on_surfaces():
         lettuce,
     ]
     assert query_semantic_annotations_on_surfaces([table3]) == []
+    assert query_semantic_annotations_on_surfaces([]) == []
 
 
-def test_query_get_next_object_euclidean():
+def test_query_get_next_object_euclidean_x_y():
     """
-    Tests tha query_get_next_object
-    :return: an ordered by distance list of Semantic Annotation
+    Tests the functionality of the `query_get_next_object_euclidean_x_y` function to verify that it accurately identifies
+    the next objects based on their Euclidean proximity within a simulation world. The test involves setting up a virtual
+    world, retrieving specific objects and annotations, and validating the results returned by the function against
+    predetermined expectations.
+
+    :raises AssertionError: If any of the function assertions fail during testing.
     """
     world = test_load_world()
     toya = world.get_body_by_name("base_link_body")
@@ -57,9 +60,9 @@ def test_query_get_next_object_euclidean():
     orange = world.get_semantic_annotation_by_name("orange_annotation")
     lettuce = world.get_semantic_annotation_by_name("lettuce_annotation")
 
-    assert query_get_next_object_euclidean(toya, table1) == [orange, apple]
-    assert query_get_next_object_euclidean(toya, table2) == [carrot, lettuce]
-    assert query_get_next_object_euclidean(toya, table3) == []
+    assert query_get_next_object_euclidean_x_y(toya, table1) == [orange, apple]
+    assert query_get_next_object_euclidean_x_y(toya, table2) == [carrot, lettuce]
+    assert query_get_next_object_euclidean_x_y(toya, table3) == []
 
 
 def test_query_most_similar_obj():
