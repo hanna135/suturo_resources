@@ -115,4 +115,3 @@ table2 = world1.get_semantic_annotation_by_name("vegetable_table_annotation")
 print(query_most_similar_obj(banana, [table1]))
 
 # print(query_semantic_annotations_on_surfaces([table1]))
-#
