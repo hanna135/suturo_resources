@@ -105,5 +105,5 @@ def test_query_most_similar_obj():
     assert query_most_similar_obj(lettuce, list_of_products_1_2) == lettuce
     assert query_most_similar_obj(carrot, list_of_products_3) == carrot
     assert query_most_similar_obj(apple, list_of_products_2) == apple
-    # assert query_most_similar_obj(carrot, list_of_products_1) == carrot
+    assert query_most_similar_obj(carrot, list_of_products_1) == carrot
     assert query_most_similar_obj(table1, list_of_products_1_2) == table1
