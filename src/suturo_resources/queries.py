@@ -8,7 +8,7 @@ from krrood.entity_query_language.symbolic import QueryObjectDescriptor, Entity
 from krrood.utils import inheritance_path_length
 from semantic_digital_twin.reasoning.predicates import (
     is_supported_by,
-    compute_euclidean_distance_2d,
+    # compute_euclidean_distance_2d,
 )
 from semantic_digital_twin.world import World
 

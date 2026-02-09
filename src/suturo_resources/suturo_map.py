@@ -1,3 +1,4 @@
+from geometry_msgs.msg import Vector3
 from semantic_digital_twin.adapters.ros.tf_publisher import TFPublisher
 from semantic_digital_twin.adapters.ros.visualization.viz_marker import (
     VizMarkerPublisher,
@@ -6,6 +7,7 @@ from semantic_digital_twin.semantic_annotations.semantic_annotations import (
     Table,
     Sofa,
     TrashCan,
+    Dishwasher,
 )
 from semantic_digital_twin.world import World
 import threading
@@ -342,6 +344,16 @@ def build_environment_furniture(world: World):
         ),
     )
     all_elements_connections.append(root_C_counterTop)
+
+    #!#
+    dishwasher_F = Dishwasher.create_with_new_body_in_world(
+        name=PrefixedName("dishwasher"),
+        world=world,
+        world_root_T_self=HomogeneousTransformationMatrix.from_xyz_rpy(x=1, y=1, z=1),
+        scale=Scale(0.60, 0.658, 1.49),
+    )
+
+    all_elements_connections.append(dishwasher_F.root_C)
 
     ovenArea = Box(scale=Scale(1.20, 0.658, 1.49), color=white)
     shape_geometry = ShapeCollection([ovenArea])
