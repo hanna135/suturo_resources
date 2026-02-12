@@ -39,18 +39,18 @@ def load_environment():
     Returns the constructed World object representing the environment.
     """
     world = World()
-    root_slam = Body(name=PrefixedName("root_slam"))
+    map = Body(name=PrefixedName("map"))
     root = Body(name=PrefixedName("root"))
 
-    root_slam_C_root = FixedConnection(
-        parent=root_slam,
+    map_C_root = FixedConnection(
+        parent=map,
         child=root,
         parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(
             x=0.33, y=0.28, yaw=0.10707963267
         ),
     )
     with world.modify_world():
-        world.add_connection(root_slam_C_root)
+        world.add_connection(map_C_root)
 
     build_environment_walls(world)
     build_environment_furniture(world)
@@ -442,7 +442,7 @@ def build_environment_furniture(world: World):
         parent=root,
         child=desk_body,
         parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(
-            x=0.05, y=1.48, z=0.375
+            x=0.05, y=1.28, z=0.375
         ),
     )
     all_elements_connections.append(root_C_desk)
@@ -500,7 +500,7 @@ def build_environment_rooms(world: World):
 
     room_annotations = []
 
-    root_slam_T_root = world.get_body_by_name("root").parent_connection.origin
+    map_T_root = world.get_body_by_name("root").parent_connection.origin
 
     with world.modify_world():
         kitchen_floor_polytope = [
@@ -535,7 +535,7 @@ def build_environment_rooms(world: World):
             name=PrefixedName("kitchen_floor"),
             world=world,
             floor_polytope=kitchen_floor_polytope,
-            world_root_T_self=root_slam_T_root
+            world_root_T_self=map_T_root
             @ HomogeneousTransformationMatrix.from_xyz_rpy(x=2.317, y=-0.843),
         )
         kitchen = Room(floor=kitchen_floor, name=PrefixedName("kitchen"))
@@ -545,7 +545,7 @@ def build_environment_rooms(world: World):
             name=PrefixedName("living_room_floor"),
             world=world,
             floor_polytope=living_room_floor_polytope,
-            world_root_T_self=root_slam_T_root
+            world_root_T_self=map_T_root
             @ HomogeneousTransformationMatrix.from_xyz_rpy(x=2.317, y=2.3095),
         )
         living_room = Room(floor=living_room_floor, name=PrefixedName("living_room"))
@@ -555,7 +555,7 @@ def build_environment_rooms(world: World):
             name=PrefixedName("bed_room_floor"),
             world=world,
             floor_polytope=bed_room_floor_polytope,
-            world_root_T_self=root_slam_T_root
+            world_root_T_self=map_T_root
             @ HomogeneousTransformationMatrix.from_xyz_rpy(x=0.96, y=4.96),
         )
         bed_room = Room(floor=bed_room_floor, name=PrefixedName("bed_room"))
@@ -565,7 +565,7 @@ def build_environment_rooms(world: World):
             name=PrefixedName("office_floor"),
             world=world,
             floor_polytope=office_floor_polytope,
-            world_root_T_self=root_slam_T_root
+            world_root_T_self=map_T_root
             @ HomogeneousTransformationMatrix.from_xyz_rpy(x=3.56, y=4.96),
         )
         office = Room(floor=office_floor, name=PrefixedName("office"))

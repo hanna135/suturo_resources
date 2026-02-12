@@ -16,7 +16,7 @@ def test_load_environment_returns_world():
     """
     world = load_environment()
     assert isinstance(world, World)
-    assert world.root.name == PrefixedName("root_slam")
+    assert world.root.name == PrefixedName("map")
 
 
 def test_query_semantic_annotations_on_surfaces():
