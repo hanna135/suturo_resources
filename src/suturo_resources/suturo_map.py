@@ -442,7 +442,7 @@ def build_environment_furniture(world: World):
         parent=root,
         child=desk_body,
         parent_T_connection_expression=HomogeneousTransformationMatrix.from_xyz_rpy(
-            x=0.05, y=1.48, z=0.375
+            x=0.05, y=1.28, z=0.375
         ),
     )
     all_elements_connections.append(root_C_desk)
@@ -586,5 +586,5 @@ class Publisher:
         self.thread.start()
 
     def publish(self, world):
-        tf_publisher = TFPublisher(world=world, node=self.node)
         viz = VizMarkerPublisher(world=world, node=self.node)
+        viz.with_tf_publisher()
